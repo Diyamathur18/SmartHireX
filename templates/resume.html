@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Upload Resume</h1>
+    <p class="muted">Upload your resume to extract skills for job recommendations.</p>
+
+    <form method="post" enctype="multipart/form-data" class="form">
+      <label class="label" for="resume">Resume (PDF or TXT)</label>
+      <input id="resume" name="resume" type="file" accept=".pdf,.txt" required />
+      <button type="submit" class="btn">Upload</button>
+    </form>
+
+    <hr class="divider">
+
+    <h2 class="subhead">Current Skills</h2>
+    <p class="muted">
+      {% if user.resume_skills %}
+        {{ user.resume_skills }}
+      {% else %}
+        No resume uploaded yet.
+      {% endif %}
+    </p>
+    {% if user.resume_filename %}
+      {% set fname = user.resume_filename.split('/')[-1].split('\\\\')[-1] %}
+      <p class="muted">Resume: <a class="nav-link" href="{{ url_for('uploaded_file', filename=fname) }}" target="_blank">View uploaded PDF</a></p>
+    {% endif %}
+  </section>
+{% endblock %}
+

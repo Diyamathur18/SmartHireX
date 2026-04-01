@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Job Listings</h1>
+
+    {% if not jobs or jobs|length == 0 %}
+      <p class="muted">No jobs posted yet.</p>
+    {% else %}
+      <div class="list">
+        {% for job in jobs %}
+          <div class="list-item">
+            <div class="list-title">{{ job.title }}</div>
+            <div class="list-sub">{{ job.company }}</div>
+            <div class="list-meta muted">
+              Required: {{ job.skills_required or job.required_skills }}
+            </div>
+            <details class="details">
+              <summary class="details-summary muted">Description</summary>
+              <p class="details-body">{{ job.description }}</p>
+            </details>
+            <div class="list-actions">
+              {% if session.get('role') == 'job_seeker' %}
+                <a class="btn btn-primary" href="{{ url_for('apply', job_id=job.id) }}">Apply</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
+

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Post a Job</h1>
+    <p class="muted">Add required skills (comma-separated) so recommendations can match resumes.</p>
+
+    <form method="post" class="form">
+      <label class="label" for="title">Job Title</label>
+      <input id="title" name="title" type="text" required maxlength="120" />
+
+      <label class="label" for="company">Company</label>
+      <input id="company" name="company" type="text" required maxlength="120" />
+
+      <label class="label" for="description">Description</label>
+      <textarea id="description" name="description" rows="6" required></textarea>
+
+      <label class="label" for="skills_required">Required Skills (comma-separated)</label>
+      <input id="skills_required" name="skills_required" type="text" required placeholder="Python, SQL, Flask" />
+
+      <button type="submit" class="btn">Publish Job</button>
+    </form>
+  </section>
+{% endblock %}
+

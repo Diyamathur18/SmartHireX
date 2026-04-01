@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Apply: {{ job.title }}</h1>
+    <p class="muted">Company: {{ job.company }}</p>
+
+    <details class="details">
+      <summary class="details-summary muted">Job Description</summary>
+      <p class="details-body">{{ job.description }}</p>
+    </details>
+
+    <p class="muted">Required Skills: {{ job.required_skills }}</p>
+
+    <form method="post" class="form">
+      <label class="label" for="cover_letter">Cover Letter (optional)</label>
+      <textarea id="cover_letter" name="cover_letter" rows="6" placeholder="Briefly introduce yourself..."></textarea>
+
+      <button type="submit" class="btn btn-primary">Submit Application</button>
+    </form>
+  </section>
+{% endblock %}
+

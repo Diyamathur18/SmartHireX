@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Dashboard</h1>
+    <p class="muted">
+      Signed in as <strong>{{ user.username }}</strong> ({{ user.role | replace('_', ' ') }}).
+    </p>
+
+    {% if session.get('role') == 'job_seeker' %}
+      <div class="grid-2">
+        <div>
+          <h2 class="subhead">Your Skills</h2>
+          <p class="muted">
+            {% if user.resume_skills %}
+              {{ user.resume_skills }}
+            {% else %}
+              Upload a resume to extract skills and unlock recommendations.
+            {% endif %}
+          </p>
+          {% if user.resume_filename %}
+            {% set fname = user.resume_filename.split('/')[-1].split('\\\\')[-1] %}
+            <p class="muted">Resume: <a class="nav-link" href="{{ url_for('uploaded_file', filename=fname) }}" target="_blank">View uploaded PDF</a></p>
+          {% endif %}
+          <a class="btn btn-secondary" href="{{ url_for('resume') }}">Upload/Update Resume</a>
+        </div>
+        <div>
+          <h2 class="subhead">Recommended Jobs</h2>
+          {% if recommendations and recommendations|length > 0 %}
+            <div class="list">
+              {% for job in recommendations %}
+                <div class="list-item">
+                  <div class="list-title">{{ job.title }}</div>
+                  <div class="list-sub">{{ job.company }}</div>
+                  <div class="list-meta muted">Posted {{ job.created_at }}</div>
+                  <div class="list-actions">
+                    <a class="btn btn-primary" href="{{ url_for('apply', job_id=job.id) }}">Apply</a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="muted">No recommendations yet. Upload a resume first.</p>
+            <a class="btn btn-secondary" href="{{ url_for('resume') }}">Upload Resume</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <h2 class="subhead">All Jobs</h2>
+      {% if all_jobs and all_jobs|length > 0 %}
+        <div class="list">
+          {% for job in all_jobs %}
+            <div class="list-item">
+              <div class="list-title">{{ job.title }}</div>
+              <div class="list-sub">{{ job.company }}</div>
+              <div class="list-meta muted">Required: {{ job.skills_required or job.required_skills }}</div>
+              <div class="list-actions">
+                <a class="btn btn-primary" href="{{ url_for('apply', job_id=job.id) }}">Apply</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">No jobs yet.</p>
+      {% endif %}
+
+      <hr class="divider">
+
+      <h2 class="subhead">Your Applications</h2>
+      {% if applications and applications|length > 0 %}
+        <div class="list">
+          {% for a in applications %}
+            <div class="list-item">
+              <div class="list-title">{{ a.title }}</div>
+              <div class="list-sub">{{ a.company }}</div>
+              <div class="list-meta muted">Status: {{ a.status }}</div>
+              <div class="list-meta muted">Applied {{ a.created_at }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">You have not applied to any jobs yet.</p>
+        <a class="btn btn-secondary" href="{{ url_for('jobs') }}">Browse Jobs</a>
+      {% endif %}
+    {% else %}
+      <div class="grid-2">
+        <div>
+          <h2 class="subhead">Employer Tools</h2>
+          <p class="muted">Post jobs and view job listings.</p>
+          <a class="btn btn-primary" href="{{ url_for('job_post') }}">Post a Job</a>
+        </div>
+        <div>
+          <h2 class="subhead">Next Steps</h2>
+          <p class="muted">
+            For best recommendations, include clear <strong>required skills</strong> (comma-separated) when posting.
+          </p>
+          <a class="btn btn-secondary" href="{{ url_for('jobs') }}">View All Jobs</a>
+        </div>
+      </div>
+      <hr class="divider">
+      <h2 class="subhead">All Jobs</h2>
+      {% if all_jobs and all_jobs|length > 0 %}
+        <div class="list">
+          {% for job in all_jobs %}
+            <div class="list-item">
+              <div class="list-title">{{ job.title }}</div>
+              <div class="list-sub">{{ job.company }}</div>
+              <div class="list-meta muted">Required: {{ job.skills_required or job.required_skills }}</div>
+              <details class="details">
+                <summary class="details-summary muted">Description</summary>
+                <p class="details-body">{{ job.description }}</p>
+              </details>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">No jobs yet.</p>
+      {% endif %}
+    {% endif %}
+  </section>
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Employer Login</h1>
+
+    <form method="post" class="form">
+      <label class="label" for="username">Username</label>
+      <input id="username" name="username" type="text" required maxlength="50" />
+
+      <label class="label" for="password">Password</label>
+      <input id="password" name="password" type="password" required />
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <p class="muted">
+      Job seekers use <a href="{{ url_for('login_seeker') }}">this separate login</a>.
+    </p>
+  </section>
+{% endblock %}
+

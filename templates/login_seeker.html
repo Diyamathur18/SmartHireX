@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Job Seeker Login</h1>
+
+    <form method="post" class="form">
+      <label class="label" for="username">Username</label>
+      <input id="username" name="username" type="text" required maxlength="50" />
+
+      <label class="label" for="password">Password</label>
+      <input id="password" name="password" type="password" required />
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </section>
+{% endblock %}
+

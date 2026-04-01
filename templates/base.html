@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartHireX</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <a class="brand-link" href="{{ url_for('index') }}">SmartHireX</a>
+      </div>
+      <nav class="nav-links">
+        {% if session.get('user_id') %}
+          {% if session.get('role') == 'job_seeker' %}
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a class="nav-link" href="{{ url_for('resume') }}">Resume</a>
+            <a class="nav-link" href="{{ url_for('jobs') }}">Jobs</a>
+          {% elif session.get('role') == 'employer' %}
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a class="nav-link" href="{{ url_for('job_post') }}">Post a Job</a>
+            <a class="nav-link" href="{{ url_for('jobs') }}">Jobs</a>
+          {% endif %}
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <a class="nav-link" href="{{ url_for('login_seeker') }}">Job Seeker Login</a>
+          <a class="nav-link" href="{{ url_for('login') }}">Employer Login</a>
+          <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack">
+          {% for category, msg in messages %}
+            <div class="flash flash-{{ category }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>SmartHireX demo portal (Flask + SQLite)</small>
+    </div>
+  </footer>
+</body>
+</html>
+

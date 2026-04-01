@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="card">
+    <h1 class="card-title">Create Account</h1>
+
+    <form method="post" class="form">
+      <label class="label" for="username">Username</label>
+      <input id="username" name="username" type="text" required maxlength="50" />
+
+      <label class="label" for="email">Email (optional)</label>
+      <input id="email" name="email" type="email" maxlength="100" />
+
+      <label class="label" for="password">Password</label>
+      <input id="password" name="password" type="password" required />
+
+      <label class="label" for="skills">Skills (comma-separated)</label>
+      <input id="skills" name="skills" type="text" placeholder="Python, SQL, AI" />
+
+      <label class="label" for="role">Account Type</label>
+      <select id="role" name="role" required>
+        <option value="job_seeker" selected>Job Seeker</option>
+        <option value="employer">Employer</option>
+      </select>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+
+    <p class="muted">After registering, use the role-specific login page.</p>
+  </section>
+{% endblock %}
+
